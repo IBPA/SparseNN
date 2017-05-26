@@ -1,7 +1,12 @@
 local SparseBlockReLU, parent = torch.class('nn.SparseBlockReLU', 'nn.Module')
 
--- Module description:
--- strict limitted support assuming: a) inplace update, b) parallel inputs with shared default value, c) fullbatch, d) no bias in prev layers which enables for sparse backpropagaion.
+--[[ Module description:
+    current implementation assumes:
+    a) inplace update, 
+    b) parallel inputs with shared default value, 
+    c) fullbatch, 
+    d) no bias in prev layers which enables for sparse backpropagaion. 
+--]]
 function SparseBlockReLU:__init(isInplace, isFullGradInput, dMin, dMax)
    self.isInplace = isInplace or true
    self.isFullGradInput = isFullGradInput or false

@@ -1,9 +1,16 @@
 local SparseBlockTemporalConvolution, parent = torch.class('nn.SparseBlockTemporalConvolution', 'nn.Module')
 
--- Module description:
--- strict limitted support assuming: a) parallel inputs with shared default value, b) fullbatch d) default input is allways zero  which enables for sparse backpropagaion. e) no bias in this layer
---ToDo: see input.THNN.TemporalConvolution_updateOutput
--- Note: isRelax means to allow this module to act as "identity" for column input in which the width becomes smaller than kW
+--[[ Module description:
+    current implementation assumes: 
+    a) fullbatch 
+    b) default input is allways zero  which enables for sparse backpropagaion. (teDefault is not used at this point) 
+    c) no bias in this layer
+
+    Note: isRelax means to allow this module to act as "identity" for column input in which the width becomes smaller than kW
+          It needs to be used carefully knowning the effects. 
+          namely, if any given column is affected by relax, changes in frameSize will not be applied to it either.
+          therefore watch for "inconsistent tensor size" type of errors in subequent layers 
+--]]
 
 function SparseBlockTemporalConvolution:__init(inputFrameSize, outputFrameSize, kW, dW, isRelax)
    dW = dW or 1
@@ -14,12 +21,7 @@ function SparseBlockTemporalConvolution:__init(inputFrameSize, outputFrameSize, 
    self.dW = dW
 
     self.isRelax = isRelax or false
-
--- ToDo: removed this limitation, fully consider ramifications 
---          *** But it seems fine for the case that when a protein is skipped, it continues to get skipped in the remaining convolutional layers ***
---    if self.isRelax then
---         assert(inputFrameSize == outputFrameSize, "isRelax is only supported when inputFrameSize == outputFrameSize")
---    end
+    
 
    self.weight = torch.Tensor(outputFrameSize, inputFrameSize*kW)
    self.gradWeight = torch.Tensor(outputFrameSize, inputFrameSize*kW)
