@@ -89,5 +89,26 @@ function mytest.SparseBlockReLU()
    end
 end
 
+--[[
+SparseBlockToDenseLinear.lua
+SparseBlockToDenseMul.lua
+SparseBlockToDenseSum.lua
+--]]
+function mytest.SparseBlockFlattenDim3()
+   --ToDo
+end
+
+function mytest.SparseBlockLinear()
+   --ToDo
+end
+
+function mytest.SparseBlockSum()
+   --ToDo
+end
+
+function SparseBlockTemporalMaxPooling()
+   --ToDo
+end
+
 tester:add(mytest)
 tester:run()
