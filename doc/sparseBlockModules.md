@@ -29,5 +29,5 @@ For the Y sensor however a single torch tensor with m rows is used where m is th
 ## Modules ##
 A SparseBlock module takes SparseBlock table input (instead of tensor).
 There are two types of SparseBlock modules:
-1. Both input and output are SparseBlock tables (e.g. SparseBlockReLU, SparseBlockLinear).
+1. Both input and output are SparseBlock tables (e.g. SparseBlockReLU, SparseBlockLinear, SparseBlockTemporalConvolution).
 2. Input is SparseBlock table while output is tensor (e.g SparseBlockToDenseLinear, SparseBlockToDenseAdd)
