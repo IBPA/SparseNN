@@ -34,10 +34,22 @@ The data for Si sensors would be represented in SparseBlock format using lua tab
 For the Y sensor data however, a single torch tensor with m rows is used where m is the number of events.
 
 ## Modules ##
-A SparseBlock module allways takes input in SparseBlock format (instead of tensor). When it comes to output format however, there are two types of modules:
-1. *Symmetric:* output is in SparseBlock format hence only SparseBlock nn modules can be stacked on top of them. For example SparseBlockReLU would be considered symmetric.
-2. *Asymmetric:* output is torch tensor tensor hence any torch nn module can be stacked on top of them. For example SparseBlockToDenseAdd would be considered asymmetirc.
+The SparseBlock modules take input in the SparseBlock format (instead of tensor). When it comes to output format however, there are two types of modules:
+* *Symmetric* modules where output is in SparseBlock format hence only SparseBlock nn modules can be stacked on top of them:
+  * [SparseBlockReLU](#nn.SparseBlockReLU)
+  * SparseBlockDropout
+  * SparseBlockFlattenDim3
+  * SparseBlockLinear
+  * SparseBlockSum
+  * SparseBlockTemporalConvolution
+  * SparseBlockTemporalMaxPooling
+* *Asymmetric* modules where output is torch tensor hence any torch nn module can be stacked on top of them:
+  * SparseBlockToDenseLinear
+  * SparseBlockToDenseMul
+  * SparseBlockToDenseSum
 
 For calculation of local gradients using backpropagaion, the [nn module](https://github.com/torch/nn/blob/master/doc/module.md) torch api is followed.
 
+<a name="nn.SparseBlockReLU"></a>
+### SparseBlockReLU ###
 
