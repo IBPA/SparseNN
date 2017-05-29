@@ -53,7 +53,9 @@ For calculation of local gradients using backpropagaion, the [nn module](https:/
 
 <a name="nn.SparseBlockTemporalConvolution"></a>
 ### SparseBlockTemporalConvolution ###
-ToDo
+```lua
+module = nn.SparseBlockTemporalConvolution(inputFrameSize, outputFrameSize, kW, [dW], [isRelax])
+```
 
 <a name="nn.SparseBlockTemporalMaxPooling"></a>
 ### SparseBlockTemporalMaxPooling ###
