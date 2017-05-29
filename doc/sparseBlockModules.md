@@ -1,12 +1,11 @@
 # SparseBlock Overview #
-The SparseBlock modules are tailored to address the scalability challange which arise from the following problem:
-
-Let us assume we have sensors S1, S2, ... , Sn and a sensor Y. Here we consider cases where the size of the signal from different sensors maybe different while all signals from a particular sensor have the same size. In a given event, the Y sensor **will** have a signal while a given Si sensor **may** have a signal. Given such sensory data (collected from various events), number of learning tasks can be defined (we mention two here):
-* A. Train a neural network to predict the signal from Y sensor using available information from Si sensors.
-* B. Rank the sensors Si, with respect to the information each provide about sensor Y (in the context of the observed events).
+Consider sensors S1, S2, ... , Sn and a sensor Y (as in top section of figure bellow). Here the size of the signal from different sensors maybe different while all signals from a particular sensor have the same size. In a given event (corresponding to a row), the Y sensor **will** have a signal while a given Si sensor **may** have a signal. Given such sensory data (collected from various events), number of learning tasks can be defined (we mention two here):
+* Train a neural network to predict the signal from Y sensor using available information from Si sensors.
+* Rank the sensors Si, with respect to the information each provide about sensor Y (in the context of the observed events).
 
 <img src="./sparseBlockData.png" height="350">
 
+Using a non-sparse representation (as in top part of figure) for such tasks will be inefficient. Hence a sparse representation (as shown in the buttom of the figure), is used (called SparseBlock):
 ## Sparse Data Format
 In the problem above a key observation is that for given event, a particular sensor Si, **may** have signal hence depending on the number of events for which a given sensor has a signal, it can be very sparse (e.g. in protein idetification). Therefore for Si, the sensor data is modelled using lua tables and torch tensors as following:
 
