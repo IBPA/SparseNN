@@ -10,7 +10,7 @@ Using a non-sparse representation (as in figure above) for such tasks will be in
 <img src="./SparseBlockData_B.png"  width="450">
 
 ## Sparse Data Format
-In the problem above a key observation is that for given event, a particular sensor Si, **may** have signal hence depending on the number of events for which a given sensor has a signal, it can be very sparse (e.g. in protein idetification). Therefore for Si, the sensor data is modelled using lua tables and torch tensors as following:
+Given that, at each event, a particular sensor Si, **may** have signal hence depending on the number of events for which a given sensor has a signal, it can be very sparse (e.g. in protein idetification). Therefore for Si, the sensor data is modelled using lua tables and torch tensors as following:
 
 ```lua
 { nBatchSize = m -- Total number of events in the dataset
@@ -25,7 +25,7 @@ In the problem above a key observation is that for given event, a particular sen
              . --]]
              {teRowIdx = teIdxSetN, -- A (nSN x 1) LongTensor which holds the event ids for which Sn has signal 
               teValue = teSignalSetN -- A (nSN x nSizeSN) Tensor whih holds the corresponding signal values in teIdxSetN
-             },
+             }
       }
 ```
 For the Y sensor however a single torch tensor with m rows is used where m is the number of events.
