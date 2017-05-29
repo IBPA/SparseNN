@@ -1,15 +1,15 @@
 # SparseBlock Overview #
 Consider sensors S1, S2, ... , Sn and a sensor Y (as in figure bellow). Here the size of the signal from different sensors maybe different while all signals from a particular sensor have the same size. In a given event (corresponding to a row), the Y sensor **will** have a signal while a given Si sensor **may** have a signal. Given such sensory data (collected from various events), learning tasks can be defined:
-* Train a neural network to predict the signal from Y sensor using available information from Si sensors.
-* Rank the sensors Si, with respect to the information each provide about sensor Y (in the context of the observed events).
+* Train a neural network to predict the Y sensor signal using Si sensor signals.
+* Rank the sensors Si, with respect to the information each provide about sensor Y.
 
 <img src="./SparseBlockData_A.png"  width="450">
 
-Using a non-sparse representation (as in figure above) for such tasks will be inefficient. Hence a sparse representation called SparseBlock is used as shown in bllow figure and described next.
+For such tasks, using a non-sparse representation as in the above figure, will be inefficient. Hence a sparse representation called SparseBlock is used as shown in figure bellow (and described next).
 
 <img src="./SparseBlockData_B.png"  width="450">
 
-## Sparse Data Format
+## SparseBlock Data Format
 The data for Si sensors would be represented in SparseBlock format using lua tables and torch tensors as following:
 
 ```lua
