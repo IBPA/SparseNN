@@ -10,7 +10,7 @@ Using a non-sparse representation (as in figure above) for such tasks will be in
 <img src="./SparseBlockData_B.png"  width="450">
 
 ## Sparse Data Format
-Given that, at each event, a particular sensor Si, **may** have signal hence depending on the number of events for which a given sensor has a signal, it can be very sparse (e.g. in protein idetification). Therefore for Si, the sensor data is modelled using lua tables and torch tensors as following:
+The data for Si sensors would be represented in SparseBlock format using lua tables and torch tensors as following:
 
 ```lua
 { nBatchSize = m -- Total number of events in the dataset
@@ -28,7 +28,7 @@ Given that, at each event, a particular sensor Si, **may** have signal hence dep
              }
       }
 ```
-For the Y sensor however a single torch tensor with m rows is used where m is the number of events.
+For the Y sensor data however, a single torch tensor with m rows is used where m is the number of events.
 
 ## Modules ##
 A SparseBlock module takes SparseBlock table input (instead of tensor).
