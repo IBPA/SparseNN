@@ -51,6 +51,32 @@ The SparseBlock modules take input in the SparseBlock format (instead of tensor)
 
 For calculation of local gradients using backpropagaion, the [nn module](https://github.com/torch/nn/blob/master/doc/module.md) torch api is followed.
 
-<a name="nn.SparseBlockReLU"></a>
-### SparseBlockReLU ###
+<a name="nn.SparseBlockTemporalConvolution">
+### SparseBlockTemporalConvolution ##
 
+<a name="nn.SparseBlockTemporalMaxPooling">
+### SparseBlockTemporalMaxPooling ##
+
+<a name="nn.SparseBlockReLU">
+### SparseBlockReLU ##
+
+<a name="nn.SparseBlockDropout">
+### SparseBlockDropout ##
+
+<a name="nn.SparseBlockTemporalMaxPooling">
+### SparseBlockTemporalMaxPooling ##
+
+<a name="nn.SparseBlockFlattenDim3">
+### SparseBlockFlattenDim3 ##
+
+<a name="nn.SparseBlockSum">
+### SparseBlockSum ##
+
+<a name="nn.SparseBlockToDenseLinear">
+### SparseBlockToDenseLinear ##
+
+<a name="nn.SparseBlockToDenseMul"></a>
+### SparseBlockToDenseMul ###
+
+<a name="nn.SparseBlockToDenseSum"></a>
+### SparseBlockToDenseSum ###
