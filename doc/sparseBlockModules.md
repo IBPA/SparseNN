@@ -26,7 +26,8 @@ The data for Si sensors would be represented in SparseBlock format using lua tab
              {teRowIdx = teIdxSetN, -- A (nSN x 1) LongTensor which holds the event ids for which Sn has signal 
               teValue = teSignalSetN -- A (nSN x nSizeSN) Tensor whih holds the corresponding signal values in teIdxSetN
              }
-      }
+           }
+}
 ```
 For the Y sensor data however, a single torch tensor with m rows is used where m is the number of events.
 
