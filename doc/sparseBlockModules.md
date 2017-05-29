@@ -1,5 +1,5 @@
 # SparseBlock
-This page describes the SparseBlock format and supported NN modules.
+This page describes the SparseBlock format and related NN modules.
 ## Overview
 Consider sensors S1, S2, ... , Sn and a sensor Y (as in figure bellow). Here the size of the signal from different sensors maybe different while all signals from a particular sensor have the same size. In a given event (corresponding to a row), the Y sensor **will** have a signal while a given Si sensor **may** have a signal. Given such sensory data (collected from various events), learning tasks can be defined:
 * Train a NN to predict the Y sensor signal using Si sensor signals.
@@ -36,17 +36,18 @@ For the Y sensor data however, a single torch tensor with m rows is used where m
 ## Modules ##
 The SparseBlock modules take input in the SparseBlock format (instead of tensor). When it comes to output format however, there are two types of modules:
 * *Symmetric* modules where output is in SparseBlock format hence only SparseBlock nn modules can be stacked on top of them:
+  * [SparseBlockTemporalConvolution](#nn.SparseBlockTemporalConvolution)
+  * [SparseBlockTemporalMaxPooling](#nn.SparseBlockTemporalMaxPooling)
   * [SparseBlockReLU](#nn.SparseBlockReLU)
-  * SparseBlockDropout
-  * SparseBlockFlattenDim3
-  * SparseBlockLinear
-  * SparseBlockSum
-  * SparseBlockTemporalConvolution
-  * SparseBlockTemporalMaxPooling
+  * [SparseBlockDropout](#nn.SparseBlockDropout)
+  * [SparseBlockFlattenDim3](#nn.SparseBlockFlattenDim3)
+  * [SparseBlockLinear](#nn.SparseBlockLinear)
+  * [SparseBlockSum](#nn.SparseBlockSum)
+
 * *Asymmetric* modules where output is torch tensor hence any torch nn module can be stacked on top of them:
-  * SparseBlockToDenseLinear
-  * SparseBlockToDenseMul
-  * SparseBlockToDenseSum
+  * [SparseBlockToDenseLinear](#nn.SparseBlockToDenseLinear)
+  * [SparseBlockToDenseMul](#nn.SparseBlockToDenseMul)
+  * [SparseBlockToDenseSum](#nn.SparseBlockToDenseSum)
 
 For calculation of local gradients using backpropagaion, the [nn module](https://github.com/torch/nn/blob/master/doc/module.md) torch api is followed.
 
