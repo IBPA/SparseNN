@@ -34,6 +34,50 @@ The data for Si sensors would be represented in SparseBlock format using lua tab
 ```
 For the Y sensor data however, a single torch tensor with m rows is used where m is the number of events.
 
+
+
+## Back-propagation ##
+For calculation of local gradients using back-propagaion, the common [nn module](https://github.com/torch/nn/blob/master/doc/module.md) torch api is followed.
+
+Given the sparse input representation, individual layers preserve the sparsity across layers by avoiding the "bias" term in various layers hence avoiding computations involving zero records throughout. Although avoiding the "bias" is acceptable in some applications it limits the modelling capacity of the network hence **it is important to add support for the bias term in future.**
+
+A key insight in efficient implmentation of back-propagation given SparseBlcok format: when the module input is zero, there is no contribution of the back-propagated error to the local gradient, hence those calculations are omitted.
+
+## Example ##
+
+SparseBlock modules can be stacked on top of each other and used in combination with other torch nn modules. For example the following builds a CNN:
+
+```lua
+local mSeq = nn.Sequential()
+
+-- First Convolutional layer with window size: 4, output channel size: 5
+mSeq:add(nn.SparseBlockTemporalConvolution(1, 5, 4)
+mSeq:add(nn.SparseBlockReLU())
+mSeq:add(nn.SparseBlockTemporalMaxPooling(4)
+mSeq:add(nn.SparseBlockDropout(0.2))
+
+-- First Convolutional layer with window size: 4, output channel size: 10
+mSeq:add(nn.SparseBlockTemporalConvolution(5, 10, 4)
+mSeq:add(nn.SparseBlockReLU())
+mSeq:add(nn.SparseBlockTemporalMaxPooling(4)
+mSeq:add(nn.SparseBlockDropout(0.2))
+
+-- Convert into two dimensional Blocks and apply Linear transformation
+mSeq:add(nn.SparseBlockFlattenDim3())
+mSeq:add(nn.SparseBlockLinear(2, false))
+
+-- Apply Linear transformation producing "dense" output format and a final nn.Sigmoid.
+mSeq:add(nn.SparseBlockToDenseLinear(1, false))
+mSeq:add(nn.Sigmoid())
+
+-- forward (data should be in SparseBlock format)
+local tePredY = mSeq:forward(taDataSparseBlockFormat)
+
+-- backward (teY tensor containing data for Y sensor)
+local teErr = nn.MSECriterion():backwrad(tePredY, teY)
+mSeq:backward(taDataSparseBlockFormat, teErr)
+```
+
 ## Modules ##
 The SparseBlock modules take input in the SparseBlock format (instead of tensor). When it comes to output format however, there are two types of modules:
 
@@ -50,15 +94,8 @@ The SparseBlock modules take input in the SparseBlock format (instead of tensor)
 * *Asymmetric* modules where output is torch tensor hence any torch nn module can be stacked on top of them:
 
   * [SparseBlockToDenseLinear](#nn.SparseBlockToDenseLinear)
-  * [SparseBlockToDenseMul](#nn.SparseBlockToDenseMul)
   * [SparseBlockToDenseSum](#nn.SparseBlockToDenseSum)
 
-### Back-propagation ###
-For calculation of local gradients using back-propagaion, the common [nn module](https://github.com/torch/nn/blob/master/doc/module.md) torch api is followed.
-
-Given the sparse input representation, individual layers preserve the sparsity across layers by avoiding the "bias" term in various layers hence avoiding computations involving zero records throughout. Although avoiding the "bias" is acceptable in some applications it limits the modelling capacity of the network hence **it is important to add support for the bias term in future.**
-
-A key insight in efficient implmentation of back-propagation given SparseBlcok format: when the module input is zero, there is no contribution of the back-propagated error to the local gradient, hence those calculations are omitted.
 
 <a name="nn.SparseBlockTemporalConvolution"></a>
 ### SparseBlockTemporalConvolution ###
