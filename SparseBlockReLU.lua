@@ -7,9 +7,7 @@ local SparseBlockReLU, parent = torch.class('nn.SparseBlockReLU', 'nn.Module')
     c) fullbatch, 
     d) no bias in prev layers which enables for sparse backpropagaion. 
 --]]
-function SparseBlockReLU:__init(isInplace, isFullGradInput, dMin, dMax)
-   self.isInplace = isInplace or true
-   self.isFullGradInput = isFullGradInput or false
+function SparseBlockReLU:__init(dMin, dMax)
    self.dMin = dMin or 0
    self.dMax = dMax or math.huge
    self.output = {}
@@ -38,8 +36,6 @@ function SparseBlockReLU:__init(isInplace, isFullGradInput, dMin, dMax)
 end
 
 function SparseBlockReLU:updateOutput(input)
-   assert(self.isInplace, "only supporting inplace for now")
-
    -- update default:
    if input.teDefault ~= nil then
       input.teDefault:apply(self.fuApplyTensor)
@@ -56,8 +52,6 @@ function SparseBlockReLU:updateOutput(input)
 end
 
 function SparseBlockReLU:updateGradInput(input, gradOutput)
-   assert(self.isInplace, "only supporting inplace for now")
-   assert(self.isFullGradInput == false, "only supporting sparse gradOutput")
 
    -- update default
    if input.teDefault ~= nil then

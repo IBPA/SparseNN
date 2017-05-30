@@ -1,11 +1,10 @@
 local SparseBlockTemporalMaxPooling, parent = torch.class('nn.SparseBlockTemporalMaxPooling', 'nn.Module')
 
-function SparseBlockTemporalMaxPooling:__init(kW, dW, isRelax, isBP)
+function SparseBlockTemporalMaxPooling:__init(kW, dW, isRelax)
    dW = dW or kW
    self.kW = kW
    self.dW = dW
    self.isRelax = isRelax or false
-   self.isBP = isBP or true
 end
 
 function SparseBlockTemporalMaxPooling:pri_ensureOutput(input)
@@ -107,10 +106,6 @@ function SparseBlockTemporalMaxPooling:pri_updateGradInput_column(taInput, taGra
 end
 
 function SparseBlockTemporalMaxPooling:updateGradInput(input, gradOutput)
-   if not self.isBP then
-      return nil
-   end
-
    self:pri_ensureGradInput(input)
 
    local nColumns = table.getn(self.gradInput.taData)
@@ -122,9 +117,5 @@ function SparseBlockTemporalMaxPooling:updateGradInput(input, gradOutput)
    end
    
    return self.gradInput
-end
-
-function SparseBlockTemporalMaxPooling:empty()
-   assert(false, "empty not implemented!")
 end
 
