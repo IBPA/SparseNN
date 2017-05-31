@@ -56,17 +56,17 @@ mSeq:add(nn.SparseBlockReLU())
 mSeq:add(nn.SparseBlockTemporalMaxPooling(4)
 mSeq:add(nn.SparseBlockDropout(0.2))
 
--- First Convolutional layer with window size: 4, output channel size: 10
+-- Second Convolutional layer with window size: 4, output channel size: 10
 mSeq:add(nn.SparseBlockTemporalConvolution(5, 10, 4)
 mSeq:add(nn.SparseBlockReLU())
 mSeq:add(nn.SparseBlockTemporalMaxPooling(4)
 mSeq:add(nn.SparseBlockDropout(0.2))
 
--- Convert into two dimensional Blocks and apply Linear transformation
+-- Additional layers for converting into two dimensional Blocks and apply Linear transformation
 mSeq:add(nn.SparseBlockFlattenDim3())
 mSeq:add(nn.SparseBlockLinear(2, false))
 
--- Apply Linear transformation producing "dense" output format and a final nn.Sigmoid.
+-- Additional layer for Linear transformation producing "dense" output format and a final nn.Sigmoid.
 mSeq:add(nn.SparseBlockToDenseLinear(1, false))
 mSeq:add(nn.Sigmoid())
 
